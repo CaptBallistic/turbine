@@ -1,5 +1,0 @@
-{
-    "active": true, 
-    "namespace": "Amazon.WAFRegional", 
-    "synopsis": "AWS WAF (Web Application Firewall) Regional protects web applications from attack via ALB load balancer and provides API to associate it with a WAF WebACL."
-}

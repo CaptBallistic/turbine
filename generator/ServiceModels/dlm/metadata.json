@@ -1,5 +1,0 @@
-{
-  "active": true,
-  "synopsis": "Amazon Data Lifecycle Manager manages lifecycle of your AWS resources.",
-  "generate-client-constructors": true
-}

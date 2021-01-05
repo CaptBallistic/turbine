@@ -1,5 +1,0 @@
-{
-    "base-name": "AWSSupport", 
-    "active": true, 
-    "synopsis": "The AWS Support API provides methods for creating and managing AWS Support cases and for retrieving the results of AWS Trusted Advisor checks."
-}

@@ -1,5 +1,0 @@
-{
-  "active": true,
-  "synopsis": "This is an initial release of AWS Single Sign-On OAuth device code authorization service.",
-  "generate-client-constructors": true
-}
