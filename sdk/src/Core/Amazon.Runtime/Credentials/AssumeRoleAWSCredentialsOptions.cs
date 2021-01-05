@@ -41,11 +41,8 @@ namespace Amazon.Runtime
         /// <summary>
         /// The proxy settings to use when calling AssumeRole.
         /// </summary>
-#if BCL
+
         public WebProxy ProxySettings { get; set; }
-#elif NETSTANDARD
-        public IWebProxy ProxySettings { get; set; }
-#endif
 
         /// <summary>
         /// The identification number of the MFA device that is associated with the user who is making the assume-role call.

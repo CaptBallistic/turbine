@@ -235,7 +235,7 @@ namespace Amazon.Runtime.Internal
             var cacheKeyBuilder = new StringBuilder();
             cacheKeyBuilder.Append(context.CustomerCredentials);
             var identifiers = context.EndpointDiscoveryData.Identifiers;
-            if (identifiers != null && identifiers.Count > 0)
+            if (identifiers != null && identifiers.Count() > 0)
             {
                 cacheKeyBuilder.Append(string.Format(CultureInfo.InvariantCulture, ".{0}", context.OperationName));
                 foreach (var identifier in identifiers)

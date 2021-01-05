@@ -105,17 +105,18 @@ namespace Amazon.Runtime
         /// </summary>
         public InstanceProfileAWSRegion()
         {
-            var region = EC2InstanceMetadata.Region;
+            throw new InvalidOperationException("EC2 instance metadata was not available or did not contain region information.");
+            //var region = EC2InstanceMetadata.Region;
 
-            if (region == null)
-            {
-                throw new InvalidOperationException("EC2 instance metadata was not available or did not contain region information.");
-            }
+            //if (region == null)
+            //{
+            //    throw new InvalidOperationException("EC2 instance metadata was not available or did not contain region information.");
+            //}
 
-            this.Region = region;
+            //this.Region = region;
 
-            var logger = Logger.GetLogger(typeof(InstanceProfileAWSRegion));
-            logger.InfoFormat("Region found using EC2 instance metadata.");
+            //var logger = Logger.GetLogger(typeof(InstanceProfileAWSRegion));
+            //logger.InfoFormat("Region found using EC2 instance metadata.");
         }
     }
 

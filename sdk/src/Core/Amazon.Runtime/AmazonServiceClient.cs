@@ -218,20 +218,6 @@ namespace Amazon.Runtime
             return response;
         }
 
-#if AWS_ASYNC_API
-
-        [Obsolete("InvokeAsync taking marshallers is obsolete. Use InvokeAsync taking InvokeOptionsBase instead.")]
-        protected System.Threading.Tasks.Task<TResponse> InvokeAsync<TRequest, TResponse>(TRequest request, 
-            IMarshaller<IRequest, AmazonWebServiceRequest> marshaller, ResponseUnmarshaller unmarshaller,
-            System.Threading.CancellationToken cancellationToken)            
-            where TRequest: AmazonWebServiceRequest
-            where TResponse : AmazonWebServiceResponse, new()
-        {
-            var options = new InvokeOptions();
-            options.RequestMarshaller = marshaller;
-            options.ResponseUnmarshaller = unmarshaller;
-            return InvokeAsync<TResponse>(request, options, cancellationToken);
-        }
 
         protected System.Threading.Tasks.Task<TResponse> InvokeAsync<TResponse>(AmazonWebServiceRequest request,
             InvokeOptionsBase options, System.Threading.CancellationToken cancellationToken)            
@@ -257,72 +243,6 @@ namespace Amazon.Runtime
             return this.RuntimePipeline.InvokeAsync<TResponse>(executionContext);
         }
 
-#elif AWS_APM_API
-        [Obsolete("BeginInvoke taking marshallers is obsolete. Use BeginInvoke taking InvokeOptionsBase instead.")]
-        protected IAsyncResult BeginInvoke<TRequest>(TRequest request,
-            IMarshaller<IRequest, AmazonWebServiceRequest> marshaller, ResponseUnmarshaller unmarshaller,
-            AsyncCallback callback, object state)
-            where TRequest : AmazonWebServiceRequest
-        {
-            var options = new InvokeOptions();
-            options.RequestMarshaller = marshaller;
-            options.ResponseUnmarshaller = unmarshaller;
-            return BeginInvoke(request, options, callback, state);
-        }
-
-        protected IAsyncResult BeginInvoke(AmazonWebServiceRequest request,
-            InvokeOptionsBase options, AsyncCallback callback, object state)            
-        {
-            ThrowIfDisposed();
-
-            var executionContext = new AsyncExecutionContext(
-                new AsyncRequestContext(this.Config.LogMetrics, Signer)
-                {
-                    ClientConfig = this.Config,
-                    Marshaller = options.RequestMarshaller,
-                    OriginalRequest = request,
-                    Unmarshaller = options.ResponseUnmarshaller,
-                    Callback = callback,
-                    State = state,
-                    IsAsync = true,
-                    ServiceMetaData = this.ServiceMetadata,
-                    Options = options
-                },
-                new AsyncResponseContext()
-            );
-            SetupCSMHandler(executionContext.RequestContext);
-            var asyncResult = this.RuntimePipeline.InvokeAsync(executionContext);
-            return asyncResult;
-        }
-
-        protected static TResponse EndInvoke<TResponse>(IAsyncResult result)
-            where TResponse : AmazonWebServiceResponse
-        {
-            if (result == null)
-                throw new ArgumentNullException("result", "Parameter result cannot be null.");
-
-            var asyncResult = result as RuntimeAsyncResult;
-
-            if (asyncResult == null)
-                throw new ArgumentOutOfRangeException("result", "Parameter result is not of type RuntimeAsyncResult.");
-
-            using (asyncResult)
-            {
-                if (!asyncResult.IsCompleted)
-                {
-                    asyncResult.AsyncWaitHandle.WaitOne();
-                }
-
-                if (asyncResult.Exception != null)
-                {
-                    AWSSDKUtils.PreserveStackTrace(asyncResult.Exception);
-                    throw asyncResult.Exception;
-                }
-
-                return (TResponse)asyncResult.Response;
-            }
-        }
-#endif
 
         protected virtual IEnumerable<DiscoveryEndpointBase> EndpointOperation(EndpointOperationContextBase context) { return null; }
 
@@ -412,13 +332,10 @@ namespace Amazon.Runtime
 
         private void BuildRuntimePipeline()
         {
-#if BCL
+
             var httpRequestFactory = new HttpWebRequestFactory(new AmazonSecurityProtocolManager());
             var httpHandler = new HttpHandler<Stream>(httpRequestFactory, this);
-#else
-            var httpRequestFactory = new HttpRequestMessageFactory(this.Config);
-            var httpHandler = new HttpHandler<System.Net.Http.HttpContent>(httpRequestFactory, this);
-#endif
+
             var preMarshallHandler = new CallbackHandler();
             preMarshallHandler.OnPreInvoke = this.ProcessPreRequestHandlers;
 

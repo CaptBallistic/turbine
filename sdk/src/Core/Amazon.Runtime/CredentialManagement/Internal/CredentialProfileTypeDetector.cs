@@ -26,10 +26,8 @@ namespace Amazon.Runtime.CredentialManagement.Internal
         AssumeRoleExternalMFA,
         AssumeRoleMFA,
         Basic,
-#if !NETSTANDARD13
         SAMLRole,
         SAMLRoleUserIdentity,
-#endif
         Session,
         CredentialProcess,
         AssumeRoleWithWebIdentity,

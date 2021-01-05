@@ -22,10 +22,12 @@
 using System;
 using System.ComponentModel;
 using System.Globalization;
+using System.Configuration;
 
 using Amazon.Util;
 using Amazon.Util.Internal;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using Amazon.Runtime;
 
 namespace Amazon
@@ -270,21 +272,7 @@ namespace Amazon
 
         private static LoggingOptions GetLoggingSetting()
         {
-            string value = GetConfig(LoggingKey);
-            if (string.IsNullOrEmpty(value))
-                return LoggingOptions.None;
-
-            string[] settings = value.Split(validSeparators, StringSplitOptions.RemoveEmptyEntries);
-            if (settings == null || settings.Length == 0)
-                return LoggingOptions.None;
-
-            LoggingOptions totalSetting = LoggingOptions.None;
-            foreach (string setting in settings)
-            {
-                LoggingOptions l = ParseEnum<LoggingOptions>(setting);
-                totalSetting |= l;
-            }
-            return totalSetting;
+            return LoggingOptions.None;
         }
 
         #endregion
@@ -513,23 +501,12 @@ namespace Amazon
 
         private static bool GetConfigBool(string name, bool defaultValue = false)
         {
-            string value = GetConfig(name);
-            bool result;
-            if (bool.TryParse(value, out result))
-                return result;
             return defaultValue;
         }
 
         private static T GetConfigEnum<T>(string name)
         {
-            var type = TypeFactory.GetTypeInfo(typeof(T));
-            if (!type.IsEnum) throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "Type {0} must be enum", type.FullName));
-
-            string value = GetConfig(name);
-            if (string.IsNullOrEmpty(value))
-                return default(T);
-            T result = ParseEnum<T>(value);
-            return result;
+            return default(T);
         }
 
         private static T ParseEnum<T>(string value)

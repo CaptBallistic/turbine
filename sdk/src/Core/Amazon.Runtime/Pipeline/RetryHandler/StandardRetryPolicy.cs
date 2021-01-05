@@ -14,7 +14,6 @@
 */
 
 using Amazon.Util;
-using AWSSDK.Runtime.Internal.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -236,7 +235,7 @@ namespace Amazon.Runtime.Internal
         /// <param name="maxBackoffInMilliseconds">The max number of milliseconds to wait</param>
         public static void WaitBeforeRetry(int retries, int maxBackoffInMilliseconds)
         {
-            AWSSDKUtils.Sleep(CalculateRetryDelay(retries, maxBackoffInMilliseconds));
+            AWSSDKUtils.Sleep(TimeSpan.FromMilliseconds(CalculateRetryDelay(retries, maxBackoffInMilliseconds)));
         }        
 
         protected static int CalculateRetryDelay(int retries, int maxBackoffInMilliseconds)
@@ -245,7 +244,7 @@ namespace Amazon.Runtime.Internal
             lock (_randomJitter) {                
                 jitter = _randomJitter.NextDouble();
             }
-            return Convert.ToInt32(Math.Min(jitter * Math.Pow(2, retries - 1) * 1000.0, maxBackoffInMilliseconds));
+            return Convert.ToInt32(jitter * Math.Pow(2, retries - 1) * 1000.0);
         }
     }
 }

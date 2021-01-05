@@ -354,9 +354,10 @@ namespace Amazon.Internal
                             throw new AmazonServiceException(string.Format(CultureInfo.InvariantCulture, "Error downloading regions definition file from {0}.", url), e);
                     }
 
-                    int delay = (int)(Math.Pow(4, retries) * 100);
-                    delay = Math.Min(delay, 30 * 1000);
-                    Util.AWSSDKUtils.Sleep(delay);
+                    int delay = (30 * 1000);
+                    TimeSpan d = TimeSpan.FromMilliseconds(delay);
+
+                    Util.AWSSDKUtils.Sleep(d);
                 }
             }
             /// <summary>

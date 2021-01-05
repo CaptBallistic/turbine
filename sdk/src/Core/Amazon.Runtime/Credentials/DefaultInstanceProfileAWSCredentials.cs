@@ -65,11 +65,12 @@ namespace Amazon.Runtime
         private DefaultInstanceProfileAWSCredentials()
         {
             // if IMDS is turned off, no need to spin up the timer task
-            if (!EC2InstanceMetadata.IsIMDSEnabled) return;
+            // if (!EC2InstanceMetadata.IsIMDSEnabled) 
+                return;
 
-            logger = Logger.GetLogger(typeof(DefaultInstanceProfileAWSCredentials));
+            // logger = Logger.GetLogger(typeof(DefaultInstanceProfileAWSCredentials));
 
-            credentialsRetrieverTimer = new Timer(RenewCredentials, null, TimeSpan.Zero, neverTimespan);
+            // credentialsRetrieverTimer = new Timer(RenewCredentials, null, TimeSpan.Zero, neverTimespan);
         }
 
         #region Overrides
@@ -139,31 +140,32 @@ namespace Amazon.Runtime
 
         private static ImmutableCredentials FetchCredentials()
         {
-            var securityCredentials = EC2InstanceMetadata.IAMSecurityCredentials;
-            if (securityCredentials == null)
+            // var securityCredentials = EC2InstanceMetadata.IAMSecurityCredentials;
+            // if (securityCredentials == null)
                 throw new AmazonServiceException("Unable to get IAM security credentials from EC2 Instance Metadata Service.");
 
-            string firstRole = null;
-            foreach (var role in securityCredentials.Keys)
-            {
-                firstRole = role;
-                break;
-            }
+            // string firstRole = null;
+            // foreach (var role in securityCredentials.Keys)
+            // {
+            //     firstRole = role;
+            //     break;
+            // }
 
-            if (string.IsNullOrEmpty(firstRole))
-                throw new AmazonServiceException("Unable to get EC2 instance role from EC2 Instance Metadata Service.");
+            // if (string.IsNullOrEmpty(firstRole))
+            //     throw new AmazonServiceException("Unable to get EC2 instance role from EC2 Instance Metadata Service.");
 
-            var metadata = securityCredentials[firstRole];
-            if (metadata == null)
-                throw new AmazonServiceException("Unable to get credentials for role \"" + firstRole + "\" from EC2 Instance Metadata Service.");
+            // var metadata = securityCredentials[firstRole];
+            // if (metadata == null)
+            //     throw new AmazonServiceException("Unable to get credentials for role \"" + firstRole + "\" from EC2 Instance Metadata Service.");
 
-            return new ImmutableCredentials(metadata.AccessKeyId, metadata.SecretAccessKey, metadata.Token);
+            // return new ImmutableCredentials(metadata.AccessKeyId, metadata.SecretAccessKey, metadata.Token);
         }
 
         private static void CheckIsIMDSEnabled()
         {
             // keep this behavior consistent with GetObjectFromResponse case.
-            if (!EC2InstanceMetadata.IsIMDSEnabled) throw new AmazonServiceException("Unable to retrieve credentials.");
+            //if (!EC2InstanceMetadata.IsIMDSEnabled) 
+                throw new AmazonServiceException("Unable to retrieve credentials.");
         }
         #endregion
 

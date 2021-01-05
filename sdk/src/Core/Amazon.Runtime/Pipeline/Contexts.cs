@@ -42,9 +42,7 @@ namespace Amazon.Runtime
         CapacityManager.CapacityType LastCapacityType { get; set; }
         int EndpointDiscoveryRetries { get; set; }
 
-#if AWS_ASYNC_API
         System.Threading.CancellationToken CancellationToken { get; }
-#endif
         MonitoringAPICallAttempt CSMCallAttempt { get; set; }
         MonitoringAPICallEvent CSMCallEvent { get; set; }
         IServiceMetadata ServiceMetaData { get; }
@@ -67,9 +65,7 @@ namespace Amazon.Runtime
 
     public interface IAsyncResponseContext : IResponseContext
     {
-#if AWS_APM_API
         Amazon.Runtime.Internal.RuntimeAsyncResult AsyncResult { get; set; }
-#endif
     }
 
     public interface IExecutionContext
@@ -129,9 +125,7 @@ namespace Amazon.Runtime.Internal
             }
         }
 
-#if AWS_ASYNC_API
         public System.Threading.CancellationToken CancellationToken { get; set; }
-#endif
 
         public string RequestName
         {
@@ -184,9 +178,8 @@ namespace Amazon.Runtime.Internal
 
     public class AsyncResponseContext : ResponseContext, IAsyncResponseContext
     {
-#if AWS_APM_API
         public Amazon.Runtime.Internal.RuntimeAsyncResult AsyncResult { get; set; }
-#endif
+
     }
 
     public class ExecutionContext : IExecutionContext

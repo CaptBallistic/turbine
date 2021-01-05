@@ -220,11 +220,14 @@ namespace ThirdParty.Json.LitJson
                 writer.Write ("\r\n");
         }
 
-        private void PutString (string str)
+        private void PutString (string str, bool IsNested = false)
         {
             Put (String.Empty);
 
-            writer.Write ('"');
+            if (!IsNested)
+            {
+                writer.Write('"');
+            }
 
             int n = str.Length;
             for (int i = 0; i < n; i++)
@@ -276,7 +279,10 @@ namespace ThirdParty.Json.LitJson
                 }
             }
 
-            writer.Write ('"');
+            if (!IsNested)
+            {
+                writer.Write('"');
+            }
         }
 
         private void Unindent ()
@@ -373,7 +379,7 @@ namespace ThirdParty.Json.LitJson
             context.ExpectingValue = false;
         }
 
-        public void Write (string str)
+        public void Write (string str, bool isNested = false)
         {
             DoValidation (Condition.Value);
             PutNewline ();
@@ -381,7 +387,7 @@ namespace ThirdParty.Json.LitJson
             if (str == null)
                 Put ("null");
             else
-                PutString (str);
+                PutString (str, isNested);
 
             context.ExpectingValue = false;
         }

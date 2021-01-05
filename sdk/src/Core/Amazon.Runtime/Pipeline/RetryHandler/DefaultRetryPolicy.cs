@@ -237,7 +237,7 @@ namespace Amazon.Runtime.Internal
         /// <param name="maxBackoffInMilliseconds">The max number of milliseconds to wait</param>
         public static void WaitBeforeRetry(int retries, int maxBackoffInMilliseconds)
         {
-            AWSSDKUtils.Sleep(CalculateRetryDelay(retries, maxBackoffInMilliseconds));
+            AWSSDKUtils.Sleep(TimeSpan.FromMilliseconds(CalculateRetryDelay(retries, maxBackoffInMilliseconds)));
         }        
 
         private static int CalculateRetryDelay(int retries, int maxBackoffInMilliseconds)

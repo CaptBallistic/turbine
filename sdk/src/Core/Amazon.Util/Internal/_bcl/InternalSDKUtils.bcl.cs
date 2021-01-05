@@ -33,28 +33,10 @@ namespace Amazon.Util.Internal
     {
         private const string MobileServicesFolderName = "AWS Mobile Services";
 
-#if BCL45
-        static string _userAgentBaseName = "aws-sdk-dotnet-45";
-#else
         static string _userAgentBaseName = "aws-sdk-dotnet-35";
-#endif
+
         public static string DetermineFramework()
         {
-            try
-            {
-                if (Environment.Version.Major >= 4 && Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\Net Framework Setup\\NDP\\v4") != null)
-                    return "4.0";
-                if (Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\Net Framework Setup\\NDP\\v3.5") != null)
-                    return "3.5";
-                if (Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\Net Framework Setup\\NDP\\v3.0") != null)
-                    return "3.0";
-                if (Registry.LocalMachine.OpenSubKey(@"Software\\Microsoft\\Net Framework Setup\\NDP\\v2.0.50727") != null)
-                    return "2.0";
-            }
-            catch
-            {
-            }
-
             return "Unknown";
         }
 

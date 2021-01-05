@@ -20,9 +20,8 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-#if AWS_ASYNC_API
 using System.Threading.Tasks;
-#endif
+
 using ThirdParty.Json.LitJson;
 
 namespace Amazon.Runtime.Internal
@@ -34,7 +33,7 @@ namespace Amazon.Runtime.Internal
     public static class CSMUtilities
     {
         private const string requestKey = "Request";
-#if AWS_ASYNC_API
+
         public static Task SerializetoJsonAndPostOverUDPAsync(MonitoringAPICall monitoringAPICall)
         {
             var monitoringAPICallAttempt = monitoringAPICall as MonitoringAPICallAttempt;
@@ -54,7 +53,7 @@ namespace Amazon.Runtime.Internal
             }
             return Task.FromResult(0);
         }
-#else
+
         public static void BeginSerializetoJsonAndPostOverUDP(MonitoringAPICall monitoringAPICall)
         {
             string response = string.Empty;
@@ -74,7 +73,7 @@ namespace Amazon.Runtime.Internal
                 }
             }
         }
-#endif
+
         public static void SerializetoJsonAndPostOverUDP(MonitoringAPICall monitoringAPICall)
         {
             string response = string.Empty;

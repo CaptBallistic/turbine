@@ -277,7 +277,7 @@ namespace Amazon.Runtime
         /// </summary>
         bool FastFailRequests { get;  }
 
-#if BCL
+
         /// <summary>
         /// Gets the TCP keep-alive values to use for service requests. Enabling TCP keep-alive sends periodic TCP keep-alive probe packets, to prevent disconnection due to 
         /// network inactivity. This is useful when you make API calls that take a long time to respond. In this case, the connection could be dropped by an intermediate 
@@ -285,15 +285,14 @@ namespace Amazon.Runtime
         /// Interval controls the amount of time to wait before retrying a keep-alive probe packet in the event the server doesn't respond to a keep-alive probe.
         /// </summary>
         TcpKeepAlive TcpKeepAlive { get; }                
-#endif
 
-#if NETSTANDARD
+
         /// <summary>
         /// Get the value to use for <see cref="HttpClientHandler.MaxConnectionsPerServer"/> on requests.
         /// If this property is null, <see cref="HttpClientHandler.MaxConnectionsPerServer"/>
         /// will be left at its default value of <see cref="int.MaxValue"/>.
         /// </summary>
-        int? MaxConnectionsPerServer { get; }
+        //int? MaxConnectionsPerServer { get; }
         
         /// <summary>
         /// <para>
@@ -315,6 +314,5 @@ namespace Amazon.Runtime
         /// If CacheHttpClient is set to true then HttpClientCacheSize controls the number of HttpClients cached.
         /// </summary>
         int HttpClientCacheSize { get; }
-#endif
     }
 }

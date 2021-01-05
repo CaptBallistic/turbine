@@ -214,16 +214,7 @@ namespace Amazon.Runtime
                 throw new InvalidOperationException(msg, e);
             }
 
-            var samlCoreSTSClient
-#if NETSTANDARD
-                = coreSTSClient as ICoreAmazonSTS_SAML;
-            if (coreSTSClient == null)
-            {
-                throw new NotImplementedException("The currently loaded version of AWSSDK.SecurityToken doesn't support SAML authentication.");
-            }
-#else
-                = coreSTSClient;
-#endif
+            var samlCoreSTSClient = coreSTSClient;
 
             try
             {

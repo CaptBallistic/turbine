@@ -85,7 +85,6 @@ namespace Amazon.Util.Internal
 
             var environmentInfo = ServiceFactory.Instance.GetService<IEnvironmentInfo>();
 
-#if BCL
             return string.Format(CultureInfo.InvariantCulture, "{0}/{1} aws-sdk-dotnet-core/{2} {3} OS/{4} {5} {6}",
                 _userAgentBaseName,
                 serviceSdkVersion,
@@ -94,16 +93,6 @@ namespace Amazon.Util.Internal
                 environmentInfo.PlatformUserAgent,
                 GetExecutionEnvironmentUserAgentString(),
                 _customData).Trim();
-#elif NETSTANDARD
-            return string.Format(CultureInfo.InvariantCulture, "{0}/{1} aws-sdk-dotnet-core/{2} {3} OS/{4} {5} {6}",
-                _userAgentBaseName,
-                serviceSdkVersion,
-                CoreVersionNumber,
-                environmentInfo.FrameworkUserAgent,
-                environmentInfo.PlatformUserAgent,
-                GetExecutionEnvironmentUserAgentString(),
-                _customData).Trim();
-#endif
         }
 
 

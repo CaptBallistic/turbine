@@ -48,7 +48,7 @@ namespace Amazon.Runtime
         /// requests and response context.</param>
         void InvokeSync(IExecutionContext executionContext);
 
-#if AWS_APM_API
+
 
         /// <summary>
         /// Contains the processing logic for an asynchronous request invocation.
@@ -72,9 +72,9 @@ namespace Amazon.Runtime
         /// <param name="executionContext">The execution context, it contains the
         /// request and response context.</param>
         void AsyncCallback(IAsyncExecutionContext executionContext);
-#endif
 
-#if AWS_ASYNC_API
+
+
 
         /// <summary>
         /// Contains the processing logic for an asynchronous request invocation.
@@ -87,6 +87,6 @@ namespace Amazon.Runtime
         /// <returns>A task that represents the asynchronous operation.</returns>
         System.Threading.Tasks.Task<T> InvokeAsync<T>(IExecutionContext executionContext)
             where T : AmazonWebServiceResponse, new();
-#endif
+
     }
 }

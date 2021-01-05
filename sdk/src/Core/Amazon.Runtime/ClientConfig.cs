@@ -71,9 +71,9 @@ namespace Amazon.Runtime
         private int? maxRetries = null;
         private const int MaxRetriesDefault = 2;
         private const int MaxRetriesLegacyDefault = 4;
-#if BCL
+
         private readonly TcpKeepAlive tcpKeepAlive = new TcpKeepAlive();
-#endif
+
 
         /// <summary>
         /// Gets Service Version
@@ -413,15 +413,14 @@ namespace Amazon.Runtime
             set { this.proxyCredentials = value; }
         }
 
-#if BCL
         /// <summary>
         /// Specifies the TCP keep-alive values to use for service requests.
         /// </summary>
         public TcpKeepAlive TcpKeepAlive
         {
             get { return this.tcpKeepAlive; }            
-        }                
-#endif
+        }
+
 
         #region Constructor 
         public ClientConfig()
@@ -678,7 +677,7 @@ namespace Amazon.Runtime
                 : (clientTimeout.HasValue ? clientTimeout : null);
         }
 
-#if NETSTANDARD
+
         /// <summary>
         /// <para>
         /// This is a switch used for performance testing and is not intended for production applications 
@@ -715,11 +714,12 @@ namespace Amazon.Runtime
                     return _httpClientCacheSize.Value;
                 }
 
-                return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? 1 : Environment.ProcessorCount;
+                //return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? 1 : Environment.ProcessorCount;
+                return 1;
             }
             set => _httpClientCacheSize = value;
         }
-#endif
+
         
         /// <summary>
         /// Overrides the default read-write timeout value.
